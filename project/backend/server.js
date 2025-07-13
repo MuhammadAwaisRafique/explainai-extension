@@ -12,8 +12,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Initialize Supabase - using the same environment variables as frontend
-const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_KEY;
+const supabaseUrl = process.env.SUPABASE_URL || 'https://ipadyqvmeemxuieqjgrw.supabase.co';
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwYWR5cXZtZWVteHVpZXFqZ3J3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MjI3MTY1MCwiZXhwIjoyMDY3ODQ3NjUwfQ.MKfLb3sgkLx10s7uyNQG3iNq2aP58p5J-I9cA2J7MDY';
 
 console.log('🔧 Supabase Configuration:');
 console.log('   URL:', supabaseUrl);
@@ -25,15 +25,12 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-// Middleware - MUST BE BEFORE ANY ROUTES
 app.use(helmet());
 app.use(cors({
   origin: [
     'http://localhost:3000', 
     'http://localhost:5173', 
-    'http://localhost:5174', 
-    'https://explainai-extension.vercel.app',
-    'https://explainai-extension-production.up.railway.app',
+    'http://localhost:5174', // <--- add this line
     'chrome-extension://*',
     'https://*.vercel.app',
     'https://*.railway.app'
