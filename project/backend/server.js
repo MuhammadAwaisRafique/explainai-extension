@@ -31,6 +31,9 @@ app.use(cors({
   origin: [
     'http://localhost:3000', 
     'http://localhost:5173', 
+    'http://localhost:5174', 
+    'https://explainai-extension.vercel.app',
+    'https://explainai-extension-production.up.railway.app',
     'chrome-extension://*',
     'https://*.vercel.app',
     'https://*.railway.app'
