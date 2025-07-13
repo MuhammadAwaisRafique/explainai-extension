@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "AI Web Annotator",
+  "version": "1.0.0",
+  "description": "Highlight any text on the web and get instant AI explanations",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://localhost:3001/*",
+    "http://localhost:5173/*",
+    "https://your-backend-url.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AI Web Annotator",
+    "default_icon": {
+      "16": "icons/icon16.svg",
+      "48": "icons/icon48.svg",
+      "128": "icons/icon128.svg"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.svg",
+    "48": "icons/icon48.svg",
+    "128": "icons/icon128.svg"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["popup.html", "content.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
