@@ -60,7 +60,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
         return;
       }
       
-      const response = await fetch(`http://localhost:3001/api/history/${user.id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || "https://explainai-extension-production.up.railway.app"}/api/history/${user.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
