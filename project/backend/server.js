@@ -34,7 +34,6 @@ const PORT = process.env.PORT || 3001;
 // Initialize Supabase - using the same environment variables as frontend
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
-
 // Throw explicit errors if required environment variables are missing
 if (!supabaseUrl) {
   throw new Error('SUPABASE_URL environment variable is required but not set.');
