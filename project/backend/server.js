@@ -28,7 +28,13 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 // Middleware - MUST BE BEFORE ANY ROUTES
 app.use(helmet());
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173', 'chrome-extension://*'],
+  origin: [
+    'http://localhost:3000', 
+    'http://localhost:5173', 
+    'chrome-extension://*',
+    'https://*.vercel.app',
+    'https://*.railway.app'
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
