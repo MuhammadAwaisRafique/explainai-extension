@@ -8,6 +8,27 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 dotenv.config();
 
+import cors from 'cors';
+
+// Place this at the very top, before any routes or other middleware
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'chrome-extension://*',
+    'https://*.vercel.app',
+    'https://*.railway.app'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Add this line to handle all OPTIONS requests
+app.options('*', cors());
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 // Initialize Supabase - using the same environment variables as frontend
@@ -32,20 +53,6 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 app.use(helmet());
-app.use(cors({
-  origin: [
-    'http://localhost:3000', 
-    'http://localhost:3001',
-    'http://localhost:5173', 
-    'http://localhost:5174', // <--- add this line
-    'chrome-extension://*',
-    'https://*.vercel.app',
-    'https://*.railway.app'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 app.use(express.json({ limit: '10mb' }));
 
 // Rate limiting
