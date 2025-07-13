@@ -10,23 +10,14 @@ dotenv.config();
 
 import cors from 'cors';
 
-// Place this at the very top, before any routes or other middleware
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:3001',
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'chrome-extension://*',
-    'https://*.vercel.app',
-    'https://*.railway.app'
-  ],
-  credentials: true,
+  origin: '*', // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-// Add this line to handle all OPTIONS requests
+// Optional: Handle preflight requests explicitly
 app.options('*', cors());
 
 const app = express();
@@ -102,7 +93,7 @@ async function testDatabaseConnection() {
 testDatabaseConnection();
 
 // Simple health check endpoint
-app.get('/api/health', async (req, res) => {
+app.get('/api/health', async (_req, res) => {
   try {
     res.json({ 
       status: 'OK', 
@@ -119,7 +110,7 @@ app.get('/api/health', async (req, res) => {
 });
 
 // Test endpoint to check database structure
-app.get('/api/test/database', async (req, res) => {
+app.get('/api/test/database', async (_req, res) => {
   try {
     console.log('🔍 Testing database structure...');
     
@@ -488,7 +479,7 @@ app.delete('/api/explanation/:id', async (req, res) => {
 });
 
 // Health check endpoint with AI service status
-app.get('/api/health', async (req, res) => {
+app.get('/api/health', async (_req, res) => {
   try {
     let geminiStatus = 'unknown';
     let openaiStatus = 'unknown';
