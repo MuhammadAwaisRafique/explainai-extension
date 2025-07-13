@@ -193,7 +193,7 @@ async function handleExplainClick(e) {
     } else if (error.message.includes('Could not establish connection')) {
       showError('Extension connection error. Please reload the extension and try again.');
     } else if (error.message.includes('Cannot connect to backend')) {
-      showError('Backend server is not running. Please start the server on http://localhost:3001');
+      showError('Backend server is not running. Please start the server on https://explainai-extension-production.up.railway.app/');
     } else if (error.message.includes('Network error')) {
       showError('Network connection error. Please check your internet connection and try again.');
     } else if (error.message.includes('Request timeout')) {

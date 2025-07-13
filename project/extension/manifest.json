@@ -10,9 +10,7 @@
     "tabs"
   ],
   "host_permissions": [
-    "http://localhost:3001/*",
-    "http://localhost:5173/*",
-    "https://your-backend-url.com/*"
+    "https://explainai-extension-production.up.railway.app/*"
   ],
   "background": {
     "service_worker": "background.js"

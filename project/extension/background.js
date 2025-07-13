@@ -114,7 +114,7 @@ async function autoDetectAndSetUserId() {
     }
     
     // Try to detect user ID from dashboard
-    const dashboardUrl = 'http://localhost:5173';
+    const dashboardUrl = 'https://explainai-extension-production.up.railway.app';
     
     try {
       // Create a tab to check the dashboard
@@ -217,92 +217,19 @@ async function setUserId(userId) {
   }
 }
 
+// Update backend URL
+const BACKEND_URL = 'https://explainai-extension-production.up.railway.app';
+
+// Update explainText to use BACKEND_URL
 async function explainText(text, context) {
-  try {
-    console.log('🔄 Sending request to backend:', { text: text.substring(0, 50) + '...', context });
-    
-    let userId = await getUserId();
-    console.log('👤 Current user ID:', userId);
-    
-    // If no user ID, try to auto-detect
-    if (!userId) {
-      console.log('🔄 No user ID found, attempting auto-detection...');
-      const detectionResult = await autoDetectAndSetUserId();
-      
-      if (detectionResult.userId) {
-        userId = detectionResult.userId;
-        console.log('✅ User ID auto-detected and set:', userId);
-      } else {
-        console.warn('⚠️ Could not auto-detect user ID. Explanation will not be saved to database.');
-      }
-    }
-    
-    // Validate user ID format
-    const isUUID = userId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId);
-    
-    if (!userId) {
-      console.warn('⚠️ No user ID found in storage. Explanation will not be saved to database.');
-      console.log('💡 User needs to be logged into the dashboard first');
-    } else if (!isUUID) {
-      console.warn('⚠️ Invalid user ID format. Explanation will not be saved to database.');
-      console.log('User ID format:', userId);
-      console.log('Expected format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
-    } else {
-      console.log('✅ User ID format is valid UUID');
-    }
-    
-    const requestBody = {
-      text: text,
-      context: context,
-      userId: userId
-    };
-    
-    console.log('📤 Request body:', requestBody);
-    console.log('📤 Request body (full):', JSON.stringify(requestBody, null, 2));
-    
-    const response = await fetch('http://localhost:3001/api/explain', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    console.log('📡 Backend response status:', response.status);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('❌ Backend error response:', errorText);
-      throw new Error(`Backend server error (${response.status}): ${errorText}`);
-    }
-
-    const data = await response.json();
-    console.log('✅ Backend response received:', { 
-      success: data.success, 
-      aiProvider: data.aiProvider,
-      explanationLength: data.explanation?.length || 0,
-      savedToDatabase: !!userId
-    });
-    return data;
-  } catch (error) {
-    console.error('💥 Error in explainText function:', error);
-    console.error('Error details:', {
-      message: error.message,
-      stack: error.stack,
-      name: error.name
-    });
-    
-    // Provide more specific error messages
-    if (error.message.includes('Failed to fetch')) {
-      throw new Error('Cannot connect to backend server. Please make sure the server is running on http://localhost:3001');
-    } else if (error.message.includes('CORS')) {
-      throw new Error('CORS error. Please check backend configuration.');
-    } else if (error.message.includes('Backend server error')) {
-      throw error; // Keep the specific backend error
-    } else {
-      throw new Error(`Network error: ${error.message}`);
-    }
-  }
+  const userId = await getUserId();
+  const response = await fetch(`${BACKEND_URL}/api/explain`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, userId, context })
+  });
+  if (!response.ok) throw new Error('Failed to get explanation');
+  return await response.json();
 }
 
 async function getUserId() {

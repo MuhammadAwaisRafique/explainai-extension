@@ -8,18 +8,6 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 dotenv.config();
 
-import cors from 'cors';
-
-
-app.use(cors({
-  origin: '*', // Allow all origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
-
-// Optional: Handle preflight requests explicitly
-app.options('*', cors());
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 // Initialize Supabase - using the same environment variables as frontend
@@ -36,6 +24,15 @@ console.log('🔧 Supabase Configuration:');
 console.log('   URL:', supabaseUrl);
 console.log('   Key:', supabaseKey ? `${supabaseKey.substring(0, 20)}...` : 'NOT SET');
 
+
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+// Optional: Handle preflight requests explicitly
+app.options('*', cors());
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Initialize Google Gemini
