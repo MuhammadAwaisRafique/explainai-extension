@@ -10,11 +10,17 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-
 // Initialize Supabase - using the same environment variables as frontend
-const supabaseUrl = process.env.SUPABASE_URL || 'https://ipadyqvmeemxuieqjgrw.supabase.co';
-const supabaseKey = process.env.SUPABASE_SERVICE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwYWR5cXZtZWVteHVpZXFqZ3J3Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MjI3MTY1MCwiZXhwIjoyMDY3ODQ3NjUwfQ.MKfLb3sgkLx10s7uyNQG3iNq2aP58p5J-I9cA2J7MDY';
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_KEY;
 
+// Throw explicit errors if required environment variables are missing
+if (!supabaseUrl) {
+  throw new Error('SUPABASE_URL environment variable is required but not set.');
+}
+if (!supabaseKey) {
+  throw new Error('SUPABASE_SERVICE_KEY environment variable is required but not set.');
+}
 console.log('🔧 Supabase Configuration:');
 console.log('   URL:', supabaseUrl);
 console.log('   Key:', supabaseKey ? `${supabaseKey.substring(0, 20)}...` : 'NOT SET');
