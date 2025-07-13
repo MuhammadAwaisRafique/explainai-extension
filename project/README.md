@@ -165,10 +165,6 @@ ai-web-annotator/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - OpenAI for providing the GPT API
@@ -177,8 +173,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-For support, email support@ai-annotator.com or open an issue on GitHub.
-
----
-
-**Made with ❤️ for curious minds everywhere**
+For support, email awaiss.rafique@gmail.com or open an issue on GitHub.
